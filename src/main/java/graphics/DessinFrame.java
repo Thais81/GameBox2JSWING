@@ -1,7 +1,10 @@
 package graphics;
 
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JTabbedPane;
 
 /**
@@ -10,7 +13,7 @@ import javax.swing.JTabbedPane;
  */
 public class DessinFrame extends JFrame {
 
-    Dessin dessin;
+    Dessin dessinpanel;
 
     public DessinFrame() {
         super();
@@ -23,11 +26,27 @@ public class DessinFrame extends JFrame {
     }
 
     private void initGui() {
-        JTabbedPane j = new JTabbedPane();
-        dessin = new Dessin();
-        j.addTab("Dessin", dessin);
-        this.getContentPane().add(j);
+        this.getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
 
+        JMenuBar jmb = new JMenuBar();
+        JMenu activites = new JMenu("Activités");
+        JMenu administration = new JMenu("Administration");
+        JMenuItem dessinItem = new JMenuItem("Dessin");
+        JMenuItem calculItem = new JMenuItem("Calcul");
+        JMenuItem questionItem = new JMenuItem("Question");
+
+        activites.add(dessinItem);
+        activites.add(calculItem);
+        activites.add(questionItem);
+        jmb.add(activites);
+        jmb.add(administration);
+
+        JTabbedPane jTabbedPane = new JTabbedPane();
+        dessinpanel = new Dessin();
+        jTabbedPane.addTab("Dessin", dessinpanel);
+
+        this.setJMenuBar(jmb);
+        this.getContentPane().add(jTabbedPane);
     }
 
     private void initEvents() {
