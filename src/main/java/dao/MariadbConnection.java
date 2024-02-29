@@ -30,9 +30,9 @@ public static Connection getInstance() {
 if (connection == null) {
 // Se connecter à la DB
 // API JDBC : Java DataBase Connectivity
-String url = ("jdbc:mariadb://localhost:3306/question");
+String url = ("jdbc:mariadb://wp.ldnr.fr:3306/cda202302_g3");
 try {
-connection = DriverManager.getConnection(url, "admin", "admin"); //Code apparent à faire disparaitre
+connection = DriverManager.getConnection(url, "cda202302_g3", "jagWFIS9fi7FksE3"); //Code apparent à faire disparaitre
 } catch (SQLException ex) {
 Logger.getLogger(MariadbConnection.class.getName()).log(Level.SEVERE, null, ex);
 //si ça se passe mal on sort

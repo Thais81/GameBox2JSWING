@@ -14,7 +14,7 @@ public class Question implements Serializable{
 
     private static final long serialVersionUID = 1L;
     
-    private Integer id_qa;
+    private Integer id_question;
     private String question;
     private String answer;
 
@@ -22,19 +22,19 @@ public class Question implements Serializable{
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Question{");
-        sb.append("id_qa=").append(id_qa);
+        sb.append("id_question=").append(id_question);
         sb.append(", question=").append(question);
         sb.append(", answer=").append(answer);
         sb.append('}');
         return sb.toString();
     }
 
-    public Integer getId_qa() {
-        return id_qa;
+    public Integer getId_question() {
+        return id_question;
     }
 
-    public void setId_qa(Integer id_qa) {
-        this.id_qa = id_qa;
+    public void setId_question(Integer id_question) {
+        this.id_question = id_question;
     }
 
     public String getQuestion() {
