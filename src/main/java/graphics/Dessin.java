@@ -5,8 +5,6 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import javax.swing.BoxLayout;
@@ -25,6 +23,7 @@ public class Dessin extends JPanel {
     JLabel titleJLabel;
     JComboBox<String> colorBox;
     int x, y = 0;
+    Color currentColor;
 
     public Dessin() {
         initGui();
@@ -58,6 +57,25 @@ public class Dessin extends JPanel {
         toolPanel.add(colorBox);
 
         this.add(toolPanel);
+        colorBox.addActionListener(e -> {
+            // Mettez à jour la couleur actuelle lorsque la sélection change
+            String selectedColor = (String) colorBox.getSelectedItem();
+            currentColor = getColorFromText(selectedColor);
+        });
+
+    }
+
+    private Color getColorFromText(String text) {
+        switch (text) {
+            case "Rouge":
+                return Color.RED;
+            case "Bleu":
+                return Color.BLUE;
+            case "Vert":
+                return Color.GREEN;
+            default:
+                return Color.BLACK;
+        }
     }
 
     private void initEvents() {
@@ -72,6 +90,7 @@ public class Dessin extends JPanel {
             @Override
             public void mouseDragged(MouseEvent e) {
                 Graphics g = drawPanel.getGraphics();
+                g.setColor(currentColor);
                 g.drawLine(x, y, e.getX(), e.getY());
                 x = e.getX();
                 y = e.getY();
