@@ -2,6 +2,7 @@ package graphics;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 
 /**
  *
@@ -22,8 +23,10 @@ public class DessinFrame extends JFrame {
     }
 
     private void initGui() {
+        JTabbedPane j = new JTabbedPane();
         dessin = new Dessin();
-        this.getContentPane().add(dessin);
+        j.addTab("Dessin", dessin);
+        this.getContentPane().add(j);
 
     }
 

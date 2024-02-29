@@ -45,7 +45,7 @@ public class Dessin extends JPanel {
         drawPanel.setBackground(Color.WHITE);
         this.add(drawPanel);
 
-        String[] options = {"Rouge", "Bleu", "Vert"};
+        String[] options = {"Noir", "Rouge", "Bleu", "Vert"};
         colorBox = new JComboBox<>(options);
 
         // Configurez le panel d'outils
@@ -96,6 +96,17 @@ public class Dessin extends JPanel {
                 y = e.getY();
             }
         });
+
+        delete.addActionListener((ae) -> {
+            clearDrawPanel();
+        });
+    }
+
+    private void clearDrawPanel() {
+        // Effacez le contenu du drawPanel en le redessinant avec un fond blanc
+        Graphics g = drawPanel.getGraphics();
+        g.setColor(Color.WHITE);
+        g.fillRect(0, 0, drawPanel.getWidth(), drawPanel.getHeight());
     }
 
     private class ColorBoxRenderer extends BasicComboBoxRenderer {
