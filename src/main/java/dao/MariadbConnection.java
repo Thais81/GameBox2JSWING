@@ -25,7 +25,7 @@ private MariadbConnection() {
 * Retourne un singleton de connexion, ferme le programme si ça se passe mal
 *
 * @return un objet Connection vers la DB
-*/
+*/  
 public static Connection getInstance() {
 if (connection == null) {
 // Se connecter à la DB
