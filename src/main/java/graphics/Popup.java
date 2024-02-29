@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
  */
 public class Popup {
 
-    private ImageIcon[] icons = {new ImageIcon("win.png"), new ImageIcon("L.png")};
+    private ImageIcon[] icons = {new ImageIcon("win.png"), new ImageIcon("lose.png")};
 
     private String[] titles = {"Gagné!", "Perdu!"};
     private String[] messages = {"Bonne réponse!", "C'est perdu gros looser, booooouuuuh!"};
