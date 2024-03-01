@@ -18,7 +18,7 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 public class Dessin extends JPanel {
 
     private JPanel drawPanel, toolPanel;
-    private JButton delete;
+    JButton delete;
     private JLabel colorLabel;
     private Color currentColor;
     private final String[] options = {"Noir", "Rouge", "Bleu", "Vert"};
