@@ -17,13 +17,12 @@ public class Game extends JFrame {
     Administration administrationPanel;
     MyMenuBar menuBar;
     JTabbedPane jtp;
-    private boolean isAdminPanelVisible = false;
 
     public Game() {
         super();
         initGui();
         initEvents();
-        this.setSize(500, 300);
+        this.setSize(800, 500);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setVisible(true);
