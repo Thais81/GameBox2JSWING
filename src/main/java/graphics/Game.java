@@ -1,10 +1,11 @@
 package graphics;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JPasswordField;
 
 /**
  *
@@ -16,6 +17,7 @@ public class Game extends JFrame {
     Administration administrationPanel;
     MyMenuBar menuBar;
     JTabbedPane jtp;
+    private boolean isAdminPanelVisible = false;
 
     public Game() {
         super();
@@ -57,9 +59,14 @@ public class Game extends JFrame {
 
     private void initEvents() {
         menuBar.settings.addActionListener((ActionEvent ae) -> {
-            jtp.addTab("Administration", administrationPanel);
+            LoginPwd log = new LoginPwd();
+            if (log.verifLogin() == true) {
+                if ("admin".equals(log.username.getText()) && "admin".equals(log.password.getText())) {
+                    jtp.addTab("Administration", administrationPanel);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Mauvais login ou/et mot de passe", "ERROR", 2);
+                }
+            }
         });
     }
 }
-
-//jTabbedPane.removeTabAt(jTabbedPane.indexOfTab("Administration"));
