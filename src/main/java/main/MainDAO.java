@@ -6,7 +6,7 @@ package main;
 
 import dao.QuestionDAO;
 import entities.Question;
-import graphics.Game;
+import graphics.Formulaire;
 import java.util.Collection;
 
 /**

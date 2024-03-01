@@ -1,6 +1,6 @@
 package main;
 
-import graphics.Game;
+import graphics.Formulaire;
 
 /**
  *
@@ -8,7 +8,7 @@ import graphics.Game;
  */
 public class MainClass {
 
-    public static void main(String[] args) {
-        Game jeux = new Game();
+    public static void main(String[] args) {    
+        Formulaire jeux = new Formulaire();
     }
 }
