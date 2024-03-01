@@ -4,6 +4,8 @@
  */
 package containers;
 
+import dao.QuestionDAO;
+import entities.Question;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -18,21 +20,23 @@ import javax.swing.JPanel;
  */
 public class QaPanel extends JPanel {
 
-    private final JLabel questionPanel;
+    public final JLabel questionPanel;
     private final LabelAndField answerPanel;
     private final JLabel questionPanelDisplay;
+    private Question question;
 
     public QaPanel() {
         questionPanel = new JLabel("Question");
         questionPanelDisplay = new JLabel(" ");
         answerPanel = new LabelAndField("Answer", 75);
+        question = newQuestion();
+        showQuestion(question);
         this.setPreferredSize(new Dimension(200, 200));
         initGui();
 
     }
 
     private void initGui() {
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setLayout(new FlowLayout(FlowLayout.LEFT));
 
         // Ajout des composants au panneau
@@ -44,6 +48,16 @@ public class QaPanel extends JPanel {
 
     public LabelAndField getAnswerPanel() {
         return answerPanel;
+    }
+    
+    private Question newQuestion() {
+        QuestionDAO qdao = new QuestionDAO();
+        Question q = qdao.alea();
+        return q;
+    }
+    
+    private void showQuestion(Question question) {
+        questionPanelDisplay.setText(question.getQuestion());
     }
 
 }
