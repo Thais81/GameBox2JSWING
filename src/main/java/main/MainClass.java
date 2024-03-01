@@ -1,7 +1,6 @@
 package main;
 
-import graphics.DessinFrame;
-import graphics.Game;
+import graphics.Popup;
 
 /**
  *
@@ -10,6 +9,9 @@ import graphics.Game;
 public class MainClass {
 
     public static void main(String[] args) {
-        new DessinFrame();
+        //Game jeux = new Game();
+        //tests unitaires Popup validés
+        Popup popup = new Popup();
+        popup.showPopup(1);
     }
 }
