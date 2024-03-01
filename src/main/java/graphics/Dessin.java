@@ -17,54 +17,58 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
 public class Dessin extends JPanel {
 
-    JPanel drawPanel, toolPanel;
-    JButton delete;
-    JLabel colorLabel;
-    JLabel titleJLabel;
-    JComboBox<String> colorBox;
-    int x, y = 0;
-    Color currentColor;
+    private JPanel drawPanel, toolPanel;
+    private JButton delete;
+    private JLabel colorLabel;
+    private Color currentColor;
+    private final String[] options = {"Noir", "Rouge", "Bleu", "Vert"};
+    private JComboBox<String> colorBox;
+    private int x, y = 0;
 
     public Dessin() {
         initGui();
         initEvents();
     }
 
+    /**
+     * Création de JPanel Dessin
+     */
     private void initGui() {
-        // Initialisez les panels et les composants
+        // Initialisation des différents panels et composants
         drawPanel = new JPanel();
         toolPanel = new JPanel();
         delete = new JButton("Delete");
         colorLabel = new JLabel();
-
-        // Configurez le layout du panel principal
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
-        // Configurez le panel de dessin
-        drawPanel.setPreferredSize(new Dimension(300, 300));
-        drawPanel.setBackground(Color.WHITE);
-        this.add(drawPanel);
-
-        String[] options = {"Noir", "Rouge", "Bleu", "Vert"};
         colorBox = new JComboBox<>(options);
 
-        // Configurez le panel d'outils
+        // Configuration du layout du panel principal
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
+        // Configuration duJPanel drawPanel
+        drawPanel.setPreferredSize(new Dimension(500, 800));
+        drawPanel.setBackground(Color.WHITE);
+
+        // Configuration duJPanel toolPanel
         toolPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 20));
-        toolPanel.add(delete);
         colorLabel.setText("Color :");
-        toolPanel.add(colorLabel);
         colorBox.setRenderer(new ColorBoxRenderer());
+
+        // Ajout des composants dans le JPanel toolPanel
+        toolPanel.add(delete);
+        toolPanel.add(colorLabel);
         toolPanel.add(colorBox);
 
+        // Ajout des composants dans le panel principal
+        this.add(drawPanel);
         this.add(toolPanel);
-        colorBox.addActionListener(e -> {
-            // Mettez à jour la couleur actuelle lorsque la sélection change
-            String selectedColor = (String) colorBox.getSelectedItem();
-            currentColor = getColorFromText(selectedColor);
-        });
-
     }
 
+    /**
+     * Permet de récupérer une couleur par rapport à un texte
+     *
+     * @param text
+     * @return La couleur associée au texte
+     */
     private Color getColorFromText(String text) {
         switch (text) {
             case "Rouge":
@@ -78,15 +82,34 @@ public class Dessin extends JPanel {
         }
     }
 
+    /**
+     * Création des fonctions asssociés au JPanel Dessin
+     */
     private void initEvents() {
+
+        /**
+         * Permet dessiner avec la souris
+         */
         drawPanel.addMouseMotionListener(new MouseMotionListener() {
 
+            /**
+             * Permet de suivre le mouvement de la souris
+             *
+             * @param me
+             */
             @Override
             public void mouseMoved(MouseEvent me) {
                 x = me.getX();
                 y = me.getY();
             }
 
+            /**
+             * Permet de tracer une ligne entre deux points parcourus par la
+             * souris à partir du moment où le bouton gauche est enfoncé,
+             * jusqu'à son relachement
+             *
+             * @param e
+             */
             @Override
             public void mouseDragged(MouseEvent e) {
                 Graphics g = drawPanel.getGraphics();
@@ -97,18 +120,38 @@ public class Dessin extends JPanel {
             }
         });
 
+        /**
+         * Lance la fonction clearDrawPanel quand le JButton delete est pressé
+         */
         delete.addActionListener((ae) -> {
             clearDrawPanel();
         });
+
+        /**
+         * Mise à jour de la couleur du trait par sélection de la couleur
+         * correspondante dans le menu déroulant de la JComboBox colorBox
+         */
+        colorBox.addActionListener(e -> {
+            String selectedColor = (String) colorBox.getSelectedItem();
+            currentColor = getColorFromText(selectedColor);
+        });
     }
 
+    /**
+     * Réinitialise le JPanel drawPanel afin d'avoir une nouvelle zone de dessin
+     */
     private void clearDrawPanel() {
-        // Effacez le contenu du drawPanel en le redessinant avec un fond blanc
         Graphics g = drawPanel.getGraphics();
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, drawPanel.getWidth(), drawPanel.getHeight());
     }
 
+    /**
+     * Classe qui permet de mettre un fond coloré au texte de selection des
+     * couleurs dans le menu déroulant JComboBox colorBox, selon la couleur
+     * sélectionnée. Les deux fonctions qu'elle contient permettent de retouter
+     * la couleur voulue.
+     */
     private class ColorBoxRenderer extends BasicComboBoxRenderer {
 
         @Override
@@ -122,26 +165,12 @@ public class Dessin extends JPanel {
                 renderer.setBackground(color);
                 renderer.setForeground(getContrastColor(color));
             }
-
             return renderer;
         }
+    }
 
-        private Color getColorFromText(String text) {
-            switch (text) {
-                case "Rouge":
-                    return Color.RED;
-                case "Bleu":
-                    return Color.BLUE;
-                case "Vert":
-                    return Color.GREEN;
-                default:
-                    return Color.BLACK;
-            }
-        }
-
-        private Color getContrastColor(Color color) {
-            int luminance = (int) (0.299 * color.getRed() + 0.587 * color.getGreen() + 0.114 * color.getBlue());
-            return luminance > 128 ? Color.BLACK : Color.WHITE;
-        }
+    private Color getContrastColor(Color color) {
+        int luminance = (int) (0.299 * color.getRed() + 0.587 * color.getGreen() + 0.114 * color.getBlue());
+        return luminance > 128 ? Color.BLACK : Color.WHITE;
     }
 }
