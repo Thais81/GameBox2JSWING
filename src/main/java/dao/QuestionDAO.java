@@ -4,6 +4,7 @@
  */
 package dao;
 
+import containers.QaPanel;
 import entities.Question;
 import java.sql.Statement;
 import java.sql.Connection;
@@ -24,9 +25,9 @@ import java.util.logging.Logger;
 public class QuestionDAO {
 
     private final Connection connection;
+    QaPanel qa;
 
     public QuestionDAO() {
-
         connection = MariadbConnection.getInstance();
     }
 
@@ -152,6 +153,27 @@ public class QuestionDAO {
             System.err.println("erreur lors du Listage: " + ex.getMessage());
         }
         return list;
+
+    }
+
+    public Question alea() {
+        Question obj = null;
+        String sql = ("SELECT * FROM question ORDER BY RAND() LIMIT 1;");
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            ResultSet result = pstmt.executeQuery();
+            if (result.first()) {
+                obj = new Question();
+                obj.setId_question(result.getInt(1));
+                obj.setQuestion(result.getString(2));
+                obj.setAnswer(result.getString(3));
+
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(QuestionDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return obj;
 
     }
 }

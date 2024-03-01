@@ -6,7 +6,6 @@ package main;
 
 import dao.QuestionDAO;
 import entities.Question;
-import graphics.Formulaire;
 import java.util.Collection;
 
 /**
@@ -46,6 +45,8 @@ public class MainDAO {
         show(qdao.list());
          // Compter les lignes
         System.out.println("nb lignes = " + qdao.count());
+        Question alea = qdao.alea();
+        System.out.println("alea = " + alea);
     }
 
  private static void show(Collection<Question> list) {
@@ -53,6 +54,7 @@ public class MainDAO {
             System.out.println(q);
         }
 
+        
  
         
         /*qa2.setQuestion("Comment s'appelle le président de la république ?");
