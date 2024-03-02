@@ -2,9 +2,12 @@ package graphics;
 
 import java.util.List;
 import java.awt.event.ActionEvent;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.stream.Collectors;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -20,7 +23,6 @@ public class Game extends JFrame {
     private Administration administrationPanel;
     private MyMenuBar menuBar;
     private JTabbedPane jtp;
-    private static final String CONFIG_FILE_PATH = "src/main/resources/adm";
 
     public Game() {
         super();
@@ -73,26 +75,24 @@ public class Game extends JFrame {
             LoginPwd log = new LoginPwd();
 
             if (log.verifLogin()) {
-                try {
-                    List<String> lines = Files.readAllLines(Paths.get(CONFIG_FILE_PATH));
-
-                    if (!lines.isEmpty()) {
-                        String[] credentials = lines.get(0).split(",");
-                        String storedUsername = credentials[0].trim();
-                        String storedPassword = credentials[1].trim();
-
-                        String enteredUsername = log.getUsername().getText();
-                        String enteredPassword = log.getPassword().getText();
-
-                        if (storedUsername.equals(enteredUsername) && storedPassword.equals(enteredPassword)) {
-                            jtp.addTab("Administration", administrationPanel);
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Mauvais login ou/et mot de passe", "ERROR", JOptionPane.ERROR_MESSAGE);
-                        }
+                List<String> lines = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/adm")))
+                        .lines()
+                        .collect(Collectors.toList());
+                if (!lines.isEmpty()) {
+                    String[] credentials = lines.get(0).split(",");
+                    String storedUsername = credentials[0].trim();
+                    String storedPassword = credentials[1].trim();
+                    
+                    String enteredUsername = log.getUsername().getText();
+                    String enteredPassword = log.getPassword().getText();
+                    
+                    if (storedUsername.equals(enteredUsername) && storedPassword.equals(enteredPassword)) {
+                        jtp.addTab("Administration", administrationPanel);
                     } else {
-                        JOptionPane.showMessageDialog(null, "Fichier de configuration vide", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Mauvais login ou/et mot de passe", "ERROR", JOptionPane.ERROR_MESSAGE);
                     }
-                } catch (IOException e) {
+                } else {
+                    JOptionPane.showMessageDialog(null, "Fichier de configuration vide", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
