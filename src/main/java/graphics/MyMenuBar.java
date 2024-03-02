@@ -18,11 +18,11 @@ public class MyMenuBar extends JMenuBar {
     }
 
     /**
-     * Création de la JMenuBar
+     * Création de la JMenuBar "MyMenuBar"
      */
     private void initGui() {
 
-        // Initialisation des différents panels et composants
+        // Instanciation des différents panels et composants
         activites = new JMenu("Activités");
         administration = new JMenu("Administration");
         dessinItem = new JMenuItem("Dessin");
