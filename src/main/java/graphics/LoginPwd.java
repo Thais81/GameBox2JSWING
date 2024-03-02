@@ -46,7 +46,7 @@ public class LoginPwd extends JPanel {
      * des boutons "OK" et "Annuler" La fonction permet de vérifier si
      * l'utilisateur presse le bouton "OK".
      *
-     * @return true si le bouton "OK" est préssé sinon return "false
+     * @return "true" si le bouton "OK" est préssé sinon return "false"
      */
     public boolean verifLogin() {
 
