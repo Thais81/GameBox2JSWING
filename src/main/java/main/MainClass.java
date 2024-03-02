@@ -1,5 +1,7 @@
 package main;
 
+import graphics.Calcul;
+import graphics.Game;
 import graphics.Popup;
 
 /**
@@ -9,9 +11,9 @@ import graphics.Popup;
 public class MainClass {
 
     public static void main(String[] args) {
-        //Game jeux = new Game();
-        //tests unitaires Popup validés
+        Calcul calcul = new Calcul();
+        Game game = new Game();
         Popup popup = new Popup();
-        popup.showPopup(1);
     }
+
 }
