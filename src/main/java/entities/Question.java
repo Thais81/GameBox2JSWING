@@ -7,7 +7,10 @@ package entities;
 import java.io.Serializable;
 
 /**
- *
+ *Création de l'entité question destinée à hydrater la base de données.
+ * Contient les attributs correspondant à la table question:
+ * Id, question et réponse correspondante.
+ * Ne contiendra que toString pour affichage dans la console ainsi que getters et setters
  * @author Guillaume Rostagnat
  */
 public class Question implements Serializable{

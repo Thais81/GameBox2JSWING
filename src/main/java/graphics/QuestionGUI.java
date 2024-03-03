@@ -4,8 +4,9 @@
  */
 package graphics;
 
-import containers.QaPanel;
+import java.sql.SQLException;
 import javax.swing.JFrame;
+
 
 /**
  * classe de test du panel question
@@ -13,17 +14,20 @@ import javax.swing.JFrame;
  */
 public class QuestionGUI extends JFrame {
 
-    public QuestionGUI() {
+    private static final long serialVersionUID = 1L;
+
+    public QuestionGUI() throws SQLException {
+        super("Questions");
         this.setContentPane(new QaPanel());
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Fermeture
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Fermeture de la fenêtre
         this.setResizable(false); // Fenêtre non-redimensionnable
         this.setSize(600, 600);
         this.setLocationRelativeTo(null); // On positionne la fenêtre au milieu de l'écran
         this.setVisible(true);
     }
     
-    public static void main(String[] args) {
-        new QuestionGUI();
+    public static void main(String[] args) throws SQLException {
+        QuestionGUI questionGUI = new QuestionGUI();
     }
     
     

@@ -4,7 +4,7 @@
  */
 package dao;
 
-import containers.QaPanel;
+import graphics.QaPanel;
 import entities.Question;
 import java.sql.Statement;
 import java.sql.Connection;
@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTextField;
 
 /**
  * Classe pour passer de l'espace objet à l'espace relationnel. implémente le
@@ -31,11 +32,10 @@ public class QuestionDAO {
         connection = MariadbConnection.getInstance();
     }
 
-    // Lecture de la BDD
+    // Lecture une entrée de la bibliotheque
     public Question read(Integer id) {
         Question obj = null;
-
-        // Envoyer requêtes
+        // Envoyer requeête prépaée
         String sql = ("SELECT * FROM question WHERE id_question=?;");
         try {
             PreparedStatement pstmt = connection.prepareStatement(sql);
@@ -58,10 +58,11 @@ public class QuestionDAO {
         return obj;
 
     }
-    // CREER Question
 
+    // CREER une entrée Question
     public void create(Question obj) {
         String sql = "INSERT INTO question (question, answer)"
+                // Requête préparée pour éviter injection sql
                 + "VALUES (?,?)";
         try {
             PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -84,7 +85,7 @@ public class QuestionDAO {
         }
     }
 
-    // Modifier
+    // Modifier une ligne de la table question
     public void update(Question obj) {
 
         String sql = "UPDATE question SET "
@@ -103,7 +104,7 @@ public class QuestionDAO {
 
     }
 
-    // Supprimer
+    // Supprimer un id de la table question
     public void delete(Integer id) {
         String sql = "DELETE FROM question WHERE id_question=?";
 
@@ -117,7 +118,7 @@ public class QuestionDAO {
 
     }
 
-    //Compter
+    //Compter les lignes de la table question
     public int count() {
         int count = 0;
         String sql = "SELECT COUNT(*) AS c FROM question";
@@ -134,7 +135,7 @@ public class QuestionDAO {
 
     }
 
-    // TOUT AFFICHER
+    // Afficher la table entière
     public Collection<Question> list() {
         ArrayList<Question> list = new ArrayList<>();
         String sql = "SELECT * FROM question";
@@ -156,6 +157,7 @@ public class QuestionDAO {
 
     }
 
+    // Fonction de lecture de la table avec fonction random
     public Question alea() {
         Question obj = null;
         String sql = ("SELECT * FROM question ORDER BY RAND() LIMIT 1;");
@@ -176,4 +178,48 @@ public class QuestionDAO {
         return obj;
 
     }
+
+    // Vérification de la réponse pour bouton vérif
+    public String check(String question, String reponseUtilisateur) throws SQLException {
+        String verificationReponse = "Faux";
+
+        String sql = "SELECT WHEN UPPER(?) = UPPER(answer) THEN 'Correct'"
+                + "ELSE 'Faux' END AS verification_reponse"
+                + "FROM question WHERE question = ?";
+        try ( PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, reponseUtilisateur);
+            pstmt.setString(2, question);
+            try ( ResultSet result = pstmt.executeQuery()) {
+                if (result.next()) {
+                    verificationReponse = result.getString("verification_reponse");
+                }
+            }
+        }
+        return verificationReponse;
+
+    }
+
+    // Affichage de la réponse
+    public String readResult(String question) {
+        String reponse = "";
+
+        String sqlQuery = "SELECT reponse FROM question WHERE question = ?";
+
+        try ( PreparedStatement pstmt = connection.prepareStatement(sqlQuery)) {
+            pstmt.setString(1, question);
+            try ( ResultSet resultSet = pstmt.executeQuery()) {
+                if (resultSet.next()) {
+                    reponse = resultSet.getString("reponse");
+                }
+            }
+        } catch (SQLException e) {
+
+        }
+
+        return reponse;
+    }
+
 }
+
+//    
+
