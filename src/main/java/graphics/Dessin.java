@@ -31,9 +31,10 @@ public class Dessin extends JPanel {
     }
 
     /**
-     * Création de JPanel Dessin
+     * Permet la création de JPanel Dessin.
      */
     private void initGui() {
+
         // Initialisation des différents panels et composants
         drawPanel = new JPanel();
         toolPanel = new JPanel();
@@ -44,16 +45,16 @@ public class Dessin extends JPanel {
         // Configuration du layout du panel principal
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        // Configuration duJPanel drawPanel
+        // Configuration duJPanel "drawPanel"
         drawPanel.setPreferredSize(new Dimension(500, 800));
         drawPanel.setBackground(Color.WHITE);
 
-        // Configuration duJPanel toolPanel
+        // Configuration duJPanel "toolPanel"
         toolPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 20));
         colorLabel.setText("Color :");
         colorBox.setRenderer(new ColorBoxRenderer());
 
-        // Ajout des composants dans le JPanel toolPanel
+        // Ajout des composants dans le JPanel "toolPanel"
         toolPanel.add(delete);
         toolPanel.add(colorLabel);
         toolPanel.add(colorBox);
@@ -64,7 +65,7 @@ public class Dessin extends JPanel {
     }
 
     /**
-     * Permet de récupérer une couleur par rapport à un texte
+     * Permet de récupérer une couleur par rapport à un texte.
      *
      * @param text
      * @return La couleur associée au texte
@@ -83,7 +84,7 @@ public class Dessin extends JPanel {
     }
 
     /**
-     * Création des fonctions asssociés au JPanel Dessin
+     * Création des fonctions associés au JPanel "Dessin"
      */
     private void initEvents() {
 
@@ -121,7 +122,8 @@ public class Dessin extends JPanel {
         });
 
         /**
-         * Lance la fonction clearDrawPanel quand le JButton delete est pressé
+         * Lance la fonction "clearDrawPanel" quand le JButton "delete" est
+         * pressé
          */
         delete.addActionListener((ae) -> {
             clearDrawPanel();
@@ -129,7 +131,7 @@ public class Dessin extends JPanel {
 
         /**
          * Mise à jour de la couleur du trait par sélection de la couleur
-         * correspondante dans le menu déroulant de la JComboBox colorBox
+         * correspondante dans le menu déroulant de la JComboBox "colorBox"
          */
         colorBox.addActionListener(e -> {
             String selectedColor = (String) colorBox.getSelectedItem();
@@ -138,7 +140,8 @@ public class Dessin extends JPanel {
     }
 
     /**
-     * Réinitialise le JPanel drawPanel afin d'avoir une nouvelle zone de dessin
+     * Réinitialise le JPanel "drawPanel" afin d'avoir une nouvelle zone de
+     * dessin
      */
     private void clearDrawPanel() {
         Graphics g = drawPanel.getGraphics();
@@ -148,8 +151,8 @@ public class Dessin extends JPanel {
 
     /**
      * Classe qui permet de mettre un fond coloré au texte de selection des
-     * couleurs dans le menu déroulant JComboBox colorBox, selon la couleur
-     * sélectionnée. Les deux fonctions qu'elle contient permettent de retouter
+     * couleurs dans le menu déroulant JComboBox "colorBox", selon la couleur
+     * sélectionnée. Les deux fonctions qu'elle contient permettent de retourner
      * la couleur voulue.
      */
     private class ColorBoxRenderer extends BasicComboBoxRenderer {
