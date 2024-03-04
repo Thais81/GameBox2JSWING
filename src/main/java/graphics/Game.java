@@ -15,6 +15,9 @@ import javax.swing.JTabbedPane;
  * @author Jopaups
  */
 public class Game extends JFrame {
+    Calcul calcul;
+    //Dessin dessinpanel;
+    MyMenuBar menuBar;
 
     private Dessin dessinPanel;
     private Administration administrationPanel;
