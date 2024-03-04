@@ -6,6 +6,8 @@ import java.util.List;
 import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.stream.Collectors;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -25,7 +27,7 @@ public class Game extends JFrame {
     private MyMenuBar menuBar;
     private JTabbedPane jtp;
 
-    public Game() {
+    public Game() throws SQLException {
         super();
         initGui();
         initEvents();
@@ -38,7 +40,7 @@ public class Game extends JFrame {
     /**
      * Permet la création de la JFrame principale "Game"
      */
-    private void initGui() {
+    private void initGui() throws SQLException {
 
         // Ajoute une BoxLayout sur un axe vertcial à la JFrame principale
         this.getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
