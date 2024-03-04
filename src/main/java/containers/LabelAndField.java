@@ -17,7 +17,6 @@ public class LabelAndField extends JPanel {
 
     private JLabel label;
     private JTextField textField;
-    private String String;
 
     public LabelAndField(String label, int size) {
         this.setLayout(new BorderLayout());
@@ -37,12 +36,12 @@ public class LabelAndField extends JPanel {
         return textField;
     }
 
-    public String getString() {
-        return String;
+    public void setLabel(JLabel label) {
+        this.label = label;
     }
 
-    public void setText(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void setTextField(JTextField textField) {
+        this.textField = textField;
     }
 
 }

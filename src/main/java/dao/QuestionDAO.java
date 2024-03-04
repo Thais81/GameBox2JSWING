@@ -4,7 +4,7 @@
  */
 package dao;
 
-import graphics.QaPanel;
+import containers.QaPanel;
 import entities.Question;
 import java.sql.Statement;
 import java.sql.Connection;
@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JTextField;
 
 /**
  * Classe pour passer de l'espace objet à l'espace relationnel. implémente le
@@ -176,26 +175,6 @@ public class QuestionDAO {
             Logger.getLogger(QuestionDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return obj;
-
-    }
-
-    // Vérification de la réponse pour bouton vérif
-    public String check(String question, String reponseUtilisateur) throws SQLException {
-        String verificationReponse = "Faux";
-
-        String sql = "SELECT WHEN UPPER(?) = UPPER(answer) THEN 'Correct'"
-                + "ELSE 'Faux' END AS verification_reponse"
-                + "FROM question WHERE question = ?";
-        try ( PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setString(1, reponseUtilisateur);
-            pstmt.setString(2, question);
-            try ( ResultSet result = pstmt.executeQuery()) {
-                if (result.next()) {
-                    verificationReponse = result.getString("verification_reponse");
-                }
-            }
-        }
-        return verificationReponse;
 
     }
 

@@ -2,22 +2,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package graphics;
+package containers;
 
-import containers.LabelAndField;
 import dao.QuestionDAO;
 import entities.Question;
-import java.awt.BorderLayout;
+import graphics.Popup;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 /**
  *
@@ -31,6 +28,10 @@ public final class QaPanel extends JPanel implements ActionListener {
     private final LabelAndField answerPanel;
     private final JLabel questionPanelDisplay;
     private Question question;
+    private final JPanel toolPanel;
+    private JButton next;
+    private JButton result;
+    private JButton check;
     private Popup popup;
 
     public QaPanel() throws SQLException {
@@ -38,14 +39,21 @@ public final class QaPanel extends JPanel implements ActionListener {
         questionPanelDisplay = new JLabel(" ");
         answerPanel = new LabelAndField("Answer", 75);
         question = newQuestion();
-        showQuestion(question);
-        showAnswer(question);
-        readAnswer();
-        verifPopup();
+        toolPanel = new JPanel();
+        next = new JButton("Suivant");
+        result = new JButton("Résultat");
+        check = new JButton("Vérifier");
+        popup = new Popup();
+        question = newQuestion();
+
         this.setPreferredSize(new Dimension(200, 200));
         initGui();
-//        initEvents();
+        initEvents();
 
+    }
+
+    public LabelAndField getAnswerPanel() {
+        return answerPanel;
     }
 
     // Fonction permettant affichage des éléments dans le QaPanel
@@ -55,18 +63,26 @@ public final class QaPanel extends JPanel implements ActionListener {
         this.add(questionPanel);
         this.add(questionPanelDisplay);
         this.add(answerPanel);
+        this.add(toolPanel);
+        // Ajout des boutons
+        toolPanel.add(check);
+        toolPanel.add(result);
+        toolPanel.add(next);
+        // afficher la question
+        showQuestion(question);
+
+        // Activation des boutons
+        next.setEnabled(true);
+        result.setEnabled(true);
+        check.setEnabled(true);
 
     }
 
     // Initialisation des évènements à l'ouverture de l'onglet Questions
-//    public void initEvents() {
-//        check.addActionListener(this);
-//        result.addActionListener(this);
-//        next.addActionListener(this);
-//    }
-
-    public LabelAndField getAnswerPanel() {
-        return answerPanel;
+    public void initEvents() {
+        check.addActionListener(this);
+        result.addActionListener(this);
+        next.addActionListener(this);
     }
 
     /**
@@ -87,30 +103,38 @@ public final class QaPanel extends JPanel implements ActionListener {
     }
 
     // Check si réponse juste avec Bouton Vérifier et affichage pop up
-    public void verifPopup() throws SQLException {
-        QuestionDAO qdao = new QuestionDAO();
-        String resUser = answerPanel.getString();
-        String res = qdao.check("question", "answer");
-        if (res == null ? resUser != null : !res.equals(resUser)) {
+    public void verifPopup() {
+        String resUser = answerPanel.getTextField().getText().trim();
+        if (!question.getAnswer().equalsIgnoreCase(resUser)) {
             popup.showPopup(1);
         } else {
             popup.showPopup(0);
         }
     }
 
-    public String readAnswer() {
-        QuestionDAO qdao = new QuestionDAO();
-        String reponse = qdao.readResult("Votre question");
-        return reponse;
-    }
-
 // Afficher réponse avec Bouton Solution
     public void showAnswer(Question question) {
-        answerPanel.setText(question.getAnswer());
+        answerPanel.getTextField().setText(question.getAnswer());
     }
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Object source = ae.getSource();
+
+        if (source instanceof JButton) {
+            JButton button = (JButton) source;
+
+            if (button == this.result) {
+                showAnswer(question);
+            } else if (button == this.next) {
+                question = newQuestion();
+                showQuestion(question);
+                answerPanel.getTextField().setText((""));
+            } else if (button == this.check) {
+                verifPopup();
+            }
+        } else {
+            setVisible(false);
+        }
     }
 }

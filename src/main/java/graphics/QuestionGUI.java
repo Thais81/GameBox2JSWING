@@ -4,6 +4,7 @@
  */
 package graphics;
 
+import containers.QaPanel;
 import java.sql.SQLException;
 import javax.swing.JFrame;
 
