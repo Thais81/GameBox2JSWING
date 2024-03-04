@@ -1,9 +1,10 @@
 package graphics;
 
-import java.util.List;
+import containers.QaPanel;
 import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.List;
 import java.util.stream.Collectors;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -15,10 +16,8 @@ import javax.swing.JTabbedPane;
  * @author Jopaups
  */
 public class Game extends JFrame {
-    Calcul calcul;
-    //Dessin dessinpanel;
-    MyMenuBar menuBar;
-
+    private Calcul calculPanel;
+    private QaPanel questionPanel;
     private Dessin dessinPanel;
     private Administration administrationPanel;
     private MyMenuBar menuBar;
@@ -50,11 +49,14 @@ public class Game extends JFrame {
 
         // Instanciation des JPanel "Dessin", "Calcul", "Question" et "Administration" (caché)
         dessinPanel = new Dessin();
+        questionPanel = new QaPanel();
+        calculPanel = new Calcul();
         administrationPanel = new Administration();
 
         // Ajout des JPanel "Dessin", "Calcul", "Question" dans le JTabbedPane pour les transformer en onglets
         jtp.addTab("Dessin", dessinPanel);
-
+        jtp.addTab("Calcul", calculPanel);
+        jtp.addTab("Question", questionPanel);
         // Ajout de la JMenuBar "MyMenuBar" dans la JFrame principale
         this.setJMenuBar(menuBar);
 
@@ -125,16 +127,16 @@ public class Game extends JFrame {
 
 //        // Permet d'afficher le JPanel "Calcul" en cliquant le JMenuItem "Calcul" de la barre des menus
 //        // ou en utilisant le raccourci clavier associé "CTLR+C"
-//        menuBar.getCalculItem().addActionListener((ActionEvent ae) -> {
-//            int calculePanelIdx = jtp.indexOfComponent(calculPanel);
-//            jtp.setSelectedIndex(calculePanelIdx);
-//        });
+       menuBar.getCalculItem().addActionListener((ActionEvent ae) -> {
+            int calculePanelIdx = jtp.indexOfComponent(calculPanel);
+            jtp.setSelectedIndex(calculePanelIdx);
+        });
 //
-//        // Permet d'afficher le JPanel "Question" en cliquant le JMenuItem "Question" de la barre des menus
-//        // ou en utilisant le raccourci clavier associé "CTLR+Q"
-//        menuBar.getQuestionItem().addActionListener((ActionEvent ae) -> {
-//            int questionPanelIdx = jtp.indexOfComponent(questionPanel);
-//            jtp.setSelectedIndex(questionPanelIdx);
-//        });
+        // Permet d'afficher le JPanel "Question" en cliquant le JMenuItem "Question" de la barre des menus
+        // ou en utilisant le raccourci clavier associé "CTLR+Q"
+        menuBar.getQuestionItem().addActionListener((ActionEvent ae) -> {
+            int questionPanelIdx = jtp.indexOfComponent(questionPanel);
+            jtp.setSelectedIndex(questionPanelIdx);
+        });
     }
 }

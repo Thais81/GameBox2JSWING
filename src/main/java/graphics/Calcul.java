@@ -4,17 +4,20 @@
  */
 package graphics;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.Random;
+import javax.swing.AbstractAction;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 
 /**
  *
@@ -23,9 +26,10 @@ import javax.swing.JTextField;
 public class Calcul extends JPanel implements ActionListener {
 
     private Popup popup;
+    private final JPanel displayPanel;
     private final JPanel toolPanel;
     private final JButton next, result, check;
-    protected final JPanel operation;
+    private final JPanel operation;
     private final JLabel Va1;
     private final JLabel Va2;
     private final JLabel operator;
@@ -39,26 +43,55 @@ public class Calcul extends JPanel implements ActionListener {
 
     public Calcul() {
 
+        //instanciation et esthetique panel du haut
         operation = new JPanel();
         operation.setLayout(new FlowLayout());
-        Va1 = new JLabel();
-        Va1.setPreferredSize(new Dimension(100, 100));
+        operation.setPreferredSize(new Dimension(500, 800));
+        operation.setBackground(Color.WHITE);
+        //pannel dans operation pour gérer l'affichage
+        displayPanel = new JPanel();
+        displayPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 20));
+        displayPanel.setBackground(Color.pink);
+        //instanciation des labels
         operator = new JLabel();
         operator.setPreferredSize(new Dimension(100, 100));
+
+        Va1 = new JLabel();
+        Va1.setPreferredSize(new Dimension(100, 100));
+        Va1.setFont(Va1.getFont().deriveFont(400));
+        Va1.setFont(Va1.getFont().deriveFont(400));
+
         Va2 = new JLabel();
         Va2.setPreferredSize(new Dimension(100, 100));
-        va1 = 0;
-        va2 = 0;
+        Va2.setFont(Va2.getFont().deriveFont(400));
+
         equal = new JLabel("=");
         equal.setPreferredSize(new Dimension(100, 100));
-        //champs de saisie de la réponse, 3 caractères
-        answer = new JTextField(3);
+        equal.setFont(equal.getFont().deriveFont(400));
+        //Champs de réponse:
+        answer = new JTextField();
         answer.setPreferredSize(new Dimension(100, 100));
+        answer.setBackground(Color.WHITE);
+        answer.setFont(answer.getFont().deriveFont(400));
+        //instanciation panel du bas
         toolPanel = new JPanel();
+        toolPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 20));
+        //instanciation des bouttons
         next = new JButton("Suivant");
         result = new JButton("Résultat");
         check = new JButton("Vérifier");
         popup = new Popup();
+        //lancement d'un calcul aléatoire dès le chargement de la page:
+        randomCalcul();
+        //gestion evènementielle de la touche entrée
+        // Ajouter la liaison de touche pour Enter au panneau
+        getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "checkAction");
+        getActionMap().put("checkAction", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                checkAnswer();
+            }
+        });
 
         initGui();
         initEvents();
@@ -114,15 +147,17 @@ public class Calcul extends JPanel implements ActionListener {
         this.add(operation);
         //intégration du panel en bas:
         this.add(toolPanel);
+        //integration du panneau display dans le panneau du haut
+        operation.add(displayPanel);
 
         //intégration des éléments au panel du haut:
         Va1.setText(String.valueOf(va1));
         Va2.setText(String.valueOf(va2));
-        operation.add(Va1);
-        operation.add(operator);
-        operation.add(Va2);
-        operation.add(equal);
-        operation.add(answer);
+        displayPanel.add(Va1);
+        displayPanel.add(operator);
+        displayPanel.add(Va2);
+        displayPanel.add(equal);
+        displayPanel.add(answer);
 
         //accélérateur:
         check.setMnemonic(KeyEvent.VK_V);
@@ -149,10 +184,6 @@ public class Calcul extends JPanel implements ActionListener {
     }
 
     //FONCTIONS:
-    //effacer le conteneur réponse de l'utilisateur
-    //deleteAnswer();
-    //pour contraindre la reponse en int taille max 3
-    //public void restrictLengthField()
     /**
      * générer un calcul random avec la fonction randomCalcul()
      */
@@ -163,18 +194,21 @@ public class Calcul extends JPanel implements ActionListener {
         getOperator = oper[new Random().nextInt(oper.length)];
         //faire apparaître l'opérateur dans son label
         operator.setText(getOperator);
-        // les valeurs
+        //Maintenant avec les chiffres
+        // les valeurs qui vont prendre l'index du tableau de valeurs
+        //On en a besoin de deux pour faire une opération:
         va1 = val[new Random().nextInt(val.length)];
         va2 = val[new Random().nextInt(val.length)];
         // Convertir le texte des valeurs en integer pour faire les opérations
         Va1.setText(String.valueOf(va1));
         Va2.setText(String.valueOf(va2));
+
     }
 
     public int calcGenerator() {
         int res = 0;
-// Puis gérer les calculs (avec une simple if condition)
-// Comparaison grace à equals()
+// Puis gérer affecter l'opérande avec une condition:
+// Comparaison de String grace à la methode equals()
         if (getOperator.equals("+")) {
 
             res = va1 + va2;
@@ -187,6 +221,7 @@ public class Calcul extends JPanel implements ActionListener {
         }
         return res;
     }
+//générer des valeurs:
 
     public void rand(int[] val, int length) {
         Random random = new Random();
@@ -235,12 +270,19 @@ public class Calcul extends JPanel implements ActionListener {
         randomCalcul();
     }
 
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            checkAnswer();
+        }
+    }
+
     /**
      *
      * @param ae
      */
     @Override
-    public void actionPerformed(ActionEvent ae) {
+    public void actionPerformed(ActionEvent ae
+    ) {
         Object source = ae.getSource();
 
         if (source instanceof JButton) {
