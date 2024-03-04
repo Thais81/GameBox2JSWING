@@ -5,6 +5,7 @@
 package graphics;
 
 import containers.QaPanel;
+import java.sql.SQLException;
 import javax.swing.JFrame;
 
 /**
@@ -13,7 +14,7 @@ import javax.swing.JFrame;
  */
 public class QuestionGUI extends JFrame {
 
-    public QuestionGUI() {
+    public QuestionGUI() throws SQLException {
         this.setContentPane(new QaPanel());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Fermeture
         this.setResizable(false); // Fenêtre non-redimensionnable
@@ -22,7 +23,7 @@ public class QuestionGUI extends JFrame {
         this.setVisible(true);
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         new QuestionGUI();
     }
     
