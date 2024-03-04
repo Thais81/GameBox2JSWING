@@ -1,10 +1,13 @@
 package graphics;
 
+import dao.QuestionDAO;
+import entities.Question;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -21,6 +24,7 @@ public class AddPanel extends JPanel {
 
     public AddPanel() {
         initGui();
+        initEvent();
     }
 
     /**
@@ -69,4 +73,20 @@ public class AddPanel extends JPanel {
     public void setAnswer(JTextField answer) {
         this.answer = answer;
     }
+
+    private void initEvent() {
+        btnSave.addActionListener((ae) -> {
+            if (question.getText().isEmpty() || answer.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Les champs ne doivent pas être vides", "ERROR", 2);
+            } else {
+                String newQuestion = question.getText();
+                String newAnswer = answer.getText();
+                Question q = new Question();
+                QuestionDAO qdao = new QuestionDAO();
+                qdao.addGraphics(q, newQuestion, newAnswer);
+                JOptionPane.showMessageDialog(null, "Sauvegarde effectuée");
+            }
+        });
+    }
+
 }

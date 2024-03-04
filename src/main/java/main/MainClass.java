@@ -11,9 +11,9 @@ import graphics.Popup;
 public class MainClass {
 
     public static void main(String[] args) {
-        Calcul calcul = new Calcul();
+
         Game game = new Game();
-        Popup popup = new Popup();
+
     }
 
 }
